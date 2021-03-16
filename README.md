@@ -97,3 +97,73 @@ To remove the todo I had a crack at it but didn't get any results because you **
 ```
 
 **Note** The strange thing is that **map** worked without having to do this.
+
+## Add Todo
+
+For this part we need to create a **form** with an input:
+
+```html
+<form>
+  <input
+    type="text"
+    name="inputTodo"
+    placeholder="Enter todo..."
+    class="todo-input"
+  />
+</form>
+```
+
+To use the input we first need to create the property in our class.
+
+```typescript
+  public inputTodo: string = ""
+```
+
+We need access to **ngModel**, but to do this we need to import a module in our app.module:
+
+```typescript
+import { FormsModule } from "@angular/forms";
+```
+
+And then add it to our imports:
+
+```typescript
+  imports: [BrowserModule, FormsModule],
+```
+
+This allows us to use **ngModel** in our template:
+
+```html
+<form>
+  <input
+    type="text"
+    name="inputTodo"
+    placeholder="Enter todo..."
+    class="todo-input"
+    [(ngModel)]="inputTodo"
+  />
+  <input type="submit" value="Add Todo" class="todo-submit" />
+</form>
+```
+
+This pattern is bizzare because we use an input to submit instead of a button.
+
+We create the method to add our todo using **push**:
+
+```typescript
+  addTodo() {
+    this.todos.push({
+      content: this.inputTodo,
+      completed: false,
+    });
+    this.inputTodo = ""
+  }
+```
+
+This won't work because we need to bind it to our form's submit handler:
+
+```html
+<form (submit)="addTodo()"></form>
+```
+
+Once this is done, our todo list works. This is strange because I'm missing out on what **ngModel** does exactly and I'm sure there are more ways to handle forms in Angular. However this was a very simple app and I can relate it well with what would have to be done in React.

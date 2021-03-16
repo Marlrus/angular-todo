@@ -7,7 +7,8 @@ import { Todo } from '../../models/Todo';
   styleUrls: ['./todos.component.css'],
 })
 export class TodosComponent implements OnInit {
-  todos: Todo[];
+  public todos: Todo[];
+  public inputTodo: string = '';
 
   constructor() {}
 
@@ -33,5 +34,13 @@ export class TodosComponent implements OnInit {
 
   removeTodo(id: number) {
     this.todos = this.todos.filter((_, i) => i !== id);
+  }
+
+  addTodo() {
+    this.todos.push({
+      content: this.inputTodo,
+      completed: false,
+    });
+    this.inputTodo = '';
   }
 }
